@@ -3,6 +3,8 @@
 import unittest
 from models.base_model import BaseModel
 from models import storage
+from models.place import Place
+from models.state import State
 import os
 
 
@@ -21,7 +23,7 @@ class test_fileStorage(unittest.TestCase):
         """ Remove storage file at end of tests """
         try:
             os.remove('file.json')
-        except:
+        except FileNotFoundError:
             pass
 
     def test_obj_list_empty(self):
@@ -107,3 +109,56 @@ class test_fileStorage(unittest.TestCase):
         from models.engine.file_storage import FileStorage
         print(type(storage))
         self.assertEqual(type(storage), FileStorage)
+
+    def test_delete_method(self):
+        '''Tesging "FileStorage.delete(self, obj=None)"'''
+        place = Place()
+        key = f'Place.{place.id}'
+        self.assertIn(key, storage.all().keys())
+        storage.delete()
+        self.assertIn(key, storage.all().keys())
+        storage.delete(None)
+        self.assertIn(key, storage.all().keys())
+        storage.delete(place)
+        self.assertNotIn(key, storage.all().keys())
+
+    def test_delete_method_raises(self):
+        '''Tesging "FileStorage.delete(self, obj=None)" raises'''
+        self.assertRaises(TypeError, storage.delete, 12)
+        self.assertRaises(TypeError, storage.delete, 12.12)
+        self.assertRaises(TypeError, storage.delete, "12")
+        self.assertRaises(TypeError, storage.delete, 12j+12)
+        self.assertRaises(TypeError, storage.delete, [12])
+        self.assertRaises(TypeError, storage.delete, {'12': 12})
+        self.assertRaises(TypeError, storage.delete, {12, 13})
+        self.assertRaises(TypeError, storage.delete, (12,))
+
+    def test_new_all(self):
+        '''Testing "FileStorage.all(new, cls=None)"'''
+        place = Place()
+        state = State()
+        place_key = f'Place.{place.id}'
+        state_key = f'State.{state.id}'
+        self.assertIn(place_key, storage.all())
+        self.assertIn(place_key, storage.all(Place))
+        self.assertIn(state_key, storage.all())
+        self.assertNotIn(state_key, storage.all(Place))
+
+    def test_new_all_raises(self):
+        '''Testing "FileStorage.all(new, cls=None)" raises'''
+        self.assertRaises(TypeError, storage.all, 'string')
+        self.assertRaises(TypeError, storage.all, 12)
+        self.assertRaises(TypeError, storage.all, 12.12)
+        self.assertRaises(TypeError, storage.all, 5j+12)
+        self.assertRaises(TypeError, storage.all, [])
+        self.assertRaises(TypeError, storage.all, {})
+        self.assertRaises(TypeError, storage.all, {1, 2})
+        self.assertRaises(TypeError, storage.all, (12,))
+        self.assertRaises(ValueError, storage.all, str)
+        self.assertRaises(ValueError, storage.all, int)
+        self.assertRaises(ValueError, storage.all, float)
+        self.assertRaises(ValueError, storage.all, complex)
+        self.assertRaises(ValueError, storage.all, list)
+        self.assertRaises(ValueError, storage.all, dict)
+        self.assertRaises(ValueError, storage.all, set)
+        self.assertRaises(ValueError, storage.all, tuple)
