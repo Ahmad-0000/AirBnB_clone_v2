@@ -62,6 +62,7 @@ class FileStorage:
             pass
 
     def delete(self, obj=None):
+        '''Deleting "obj" form "FileStorage.__objects"'''
         if obj:
             cls_name = obj.__class__.__name__
             if cls_name not in FileStorage.classes:
