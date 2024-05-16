@@ -10,7 +10,7 @@ from models.user import User
 from models.review import Review
 from models.place import Place
 from models.amenity import Amenity
-
+from models.review import Review
 
 class DBStorage():
     """Functionality Class"""
@@ -40,7 +40,7 @@ class DBStorage():
                 obj_dict[key] = obj
         else:
             obj_matrix = DBStorage.__session.query(State, City, User, Place,
-                                                   User).all()
+                                                   User, Review).all()
             for obj_list in obj_matrix:
                 for obj in obj_list:
                     key = f'{obj.__class__.__name__}.{obj.id}'
