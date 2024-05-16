@@ -67,4 +67,4 @@ class FileStorage:
             cls_name = obj.__class__.__name__
             if cls_name not in FileStorage.classes:
                 raise TypeError('obj is not valid')
-            del self.__objects[f'{cls_name}.{obj.id}']
+            del FileStorage.__objects[f'{cls_name}.{obj.id}']

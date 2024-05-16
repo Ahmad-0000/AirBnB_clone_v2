@@ -2,6 +2,7 @@
 """ Console Module """
 import cmd
 import sys
+from os import getenv
 from models.base_model import BaseModel
 from models.__init__ import storage
 from models.user import User
@@ -136,10 +137,12 @@ class HBNBCommand(cmd.Cmd):
                     new_instance.__dict__[arg] = val
                 except Exception:
                     pass
+            HBNBCommand.classes[cls].save(new_instance)
             storage.save()
             print(new_instance.id)
         else:
             new_instance = HBNBCommand.classes[cls]()
+            HBNBCommand.classes[cls].save(new_instance)
             storage.save()
             print(new_instance.id)
 
