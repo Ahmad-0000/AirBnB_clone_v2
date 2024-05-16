@@ -19,12 +19,12 @@ class DBStorage():
 
     def __init__(self):
         """Establishing a connection"""
-        usr = getenv("HBNB_MYSQL_USER")
+        user = getenv("HBNB_MYSQL_USER")
         pwd = getenv("HBNB_MYSQL_PWD")
         ho = getenv("HBNB_MYSQL_HOST")
         db = getenv("HBNB_MYSQL_DB")
         DBStorage.__engine = \
-            create_engine(f"mysql+mysqldb://{usr}:{pwd}@{ho}/{db}",
+            create_engine(f"mysql+mysqldb://{user}:{pwd}@{ho}/{db}",
                           pool_pre_ping=True)
         if getenv("HBNB_ENV") == "test":
             Base.metadata.drop_all(self.__engine)
@@ -39,13 +39,11 @@ class DBStorage():
                 key = f'{obj.__class__.__name__}.{obj.id}'
                 obj_dict[key] = obj
         else:
-            obj_matrics = DBStorage.__session.query(User, State, City, Amenity,
-                                                    Place, Review).all()
+            obj_matrix = DBStorage.__session.query(State, City).all()
             for obj_list in obj_matrix:
                 for obj in obj_list:
                     key = f'{obj.__class__.__name__}.{obj.id}'
                     obj_dict[key] = obj
-        print(obj_dict)
         return (obj_dict)
 
     def new(self, obj):
