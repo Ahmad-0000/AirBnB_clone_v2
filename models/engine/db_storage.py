@@ -39,7 +39,7 @@ class DBStorage():
                 key = f'{obj.__class__.__name__}.{obj.id}'
                 obj_dict[key] = obj
         else:
-            obj_matrix = DBStorage.__session.query(State, City).all()
+            obj_matrix = DBStorage.__session.query(State, City, User).all()
             for obj_list in obj_matrix:
                 for obj in obj_list:
                     key = f'{obj.__class__.__name__}.{obj.id}'
