@@ -2,9 +2,16 @@
 """ Place Module for HBNB project """
 from os import getenv
 from models.base_model import BaseModel, Base
-from sqlalchemy import Column, String, Integer, Float, ForeignKey
+from sqlalchemy import Column, String, Integer, Float, ForeignKey, Table
 from sqlalchemy.orm import relationship
 from models.review import Review
+
+place_amenity = Table("place_amenity", Base.metadata,
+                      Column("place_id", ForeignKey("amenities.id"),
+                             primary_key=True),
+                      Column("amenity_id", ForeignKey("places.id"),
+                             primary_key=True))
+
 
 class Place(BaseModel, Base):
     """ A place to stay """
@@ -24,6 +31,8 @@ class Place(BaseModel, Base):
     if getenv("HBNB_TYPE_STORAGE") == 'db':
         reviews = relationship("Review", back_populates='place',
                                cascade="all, delete, delete-orphan")
+        amenities = relationship("Amenity", secondary=place_amenity,
+                                 viewonly=False)
     else:
         @property
         def reviews(self):
@@ -36,5 +45,22 @@ class Place(BaseModel, Base):
                 if review.place_id == Place.id:
                     reviews_list.append(review)
             return reviews_list
+
+        @property
+        def amenities(self):
+            """Retriving all objects of "Amenity" class in "Place.amentiyt_ids"
+            which has an "id" equal to the current "Place.id" attribute"""
+            amenities_list = []
+            for amenity in amenity_ids:
+                if amenity.id == Place.id:
+                    amenities_list.append(amenity)
+            return amenities_list
+
+        @amenities.setter
+        """Adding "amenity_obj" to "Place.amenity_ids" if it is an instance
+        of "Amenity" class"""
+        def amenities(self, amenity_obj):
+            if isinstance(amenity_obj, Amenity):
+                Place.amenity_ids.append(amenity_obj)
 
     amenity_ids = []
