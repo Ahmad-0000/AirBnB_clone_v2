@@ -7,9 +7,9 @@ from sqlalchemy.orm import relationship
 from models.review import Review
 
 place_amenity = Table("place_amenity", Base.metadata,
-                      Column("place_id", ForeignKey("amenities.id"),
+                      Column("place_id", ForeignKey("places.id"),
                              primary_key=True),
-                      Column("amenity_id", ForeignKey("places.id"),
+                      Column("amenity_id", ForeignKey("amenities.id"),
                              primary_key=True))
 
 
