@@ -32,6 +32,12 @@ class BaseModel:
             except KeyError:
                 pass
             self.__dict__.update(kwargs)
+            if "id" not in kwargs.keys():
+                self.__dict__['id'] = str(uuid.uuid4())
+            if "created_at" not in kwargs.keys():
+                self.__dict__['created_at'] = datetime.now()
+            if "updated_at" not in kwargs.keys():
+                self.__dict__['updated_at'] = self.__dict__['created_at']
 
     def __str__(self):
         """Returns a string representation of the instance"""
