@@ -57,9 +57,9 @@ class Place(BaseModel, Base):
             return amenities_list
 
         @amenities.setter
-        """Adding "amenity_obj" to "Place.amenity_ids" if it is an instance
-        of "Amenity" class"""
         def amenities(self, amenity_obj):
+        '''Adding "amenity_obj" to "Place.amenity_ids" if it is an instance
+        of "Amenity" class'''
             if isinstance(amenity_obj, Amenity):
                 Place.amenity_ids.append(amenity_obj)
 
