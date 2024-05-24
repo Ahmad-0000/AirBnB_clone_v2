@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # A script that sets up my web servers for the deployment of "web_static"
 
-nginx_config="events {}\n\nhttp {\n\tserver {\n\t\tlisten 80;\n\t\tlisten [::]:80;\n\n\t\tserver_name ahmad-basheer.tech;\n\n\t\tlocation /hbnb_static {\n\t\t\talias /data/web_static/current;\n\t\t}\n\t}\n}"
+nginx_config="events {}\n\nhttp {\n\tserver {\n\t\tlisten 80;\n\t\tlisten [::]:80;\n\n\t\tserver_name www.ahmad-basheer.tech ahmad-basheer.tech;\n\n\t\tlocation /hbnb_static {\n\t\t\talias /data/web_static/current;\n\t\t}\n\t}\n}"
 
 # Installing Nginx
 apt-get -y install nginx
