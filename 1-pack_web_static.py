@@ -28,4 +28,3 @@ def do_pack():
     if result.failed:
         return None
     return f"versions/web_static_{name}.tgz"
-
