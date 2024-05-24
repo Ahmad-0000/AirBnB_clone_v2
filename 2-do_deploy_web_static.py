@@ -37,7 +37,7 @@ def do_deploy(archive_path):
     result = put(local_path=archive_path, remote_path="/tmp/")
     if result.failed:
         return False
-    result = run(f"tar -xvf /tmp/{archive_name} -C /data/web_static/releases/")
+    result = run(f"tar -xzf /tmp/{archive_name} -C /data/web_static/releases/")
     if result.failed:
         return False
     new_name = f"/data/web_static/releases/{foldername}"
