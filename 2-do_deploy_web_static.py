@@ -4,7 +4,7 @@ from fabric.api import *
 from datetime import datetime
 import os
 
-env.hosts = ['web-1', 'web-2']
+env.hosts = ['localhost']
 
 now = datetime.now()
 year = str(now.year)
