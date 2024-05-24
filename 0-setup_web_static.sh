@@ -20,4 +20,4 @@ chown -R ubuntu:ubuntu /data
 # http://ahmad-basheer.tech/hbnb_static
 cp /etc/nginx/nginx.conf /etc/nginx/nginx.conf.bak
 echo -e "$nginx_config" > /etc/nginx/nginx.conf
-nginx -s reload
+nginx
