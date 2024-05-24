@@ -19,9 +19,17 @@ name = year + month + day + hour + minute + second
 
 def do_pack():
     """Making a .tgz archive from the static website directory"""
-    local("mkdir -p versions")
-    local(f"tar -czvf web_static_{name}.tgz web_static")
-    local(f"mv web_static_{name}.tgz versions/")
+    result = local("mkdir -p versions")
+    if result.failed:
+        return None
+    result = local(f"tar -czvf web_static_{name}.tgz web_static")
+    if result.failed:
+        return None
+    result = local(f"mv web_static_{name}.tgz versions/")
+    if result.failed:
+        return None
+    return f"versions/web_static_{name}.tgz"
+
 
 
 def do_deploy(archive_path):
@@ -33,7 +41,19 @@ def do_deploy(archive_path):
         archive_name = archive_path.split('/')[-1]
     else:
         archive_name = archive_path
-    foldername = archive_name.split('.')[0]
+    foldername = archive_name.split('.')
+    new_foldername = ""
+    if len(foldername) > 2:
+        names = len(foldername)
+        i = 0
+        dot = ""
+        while i < names - 1:
+            new_foldername = new_foldername + dot + foldername[i]
+            dot = "."
+            i += 1
+        foldername = new_foldername
+    else:
+        foldername = archive_name.split('.')[0]
     result = put(local_path=archive_path, remote_path="/tmp/")
     if result.failed:
         return False
