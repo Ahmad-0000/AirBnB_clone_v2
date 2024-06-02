@@ -13,7 +13,7 @@ class FileStorage:
     def all(self, cls=None):
         """Returns a dictionary of models currently in storage"""
         if cls is not None and type(cls) is not type:
-            raise TypeError('"cls" must a class or None')
+            raise TypeError('"cls" must be a class or None')
         if cls is not None and cls.__name__ not in FileStorage.classes:
             raise ValueError(f'{cls} does not exist')
         if cls is not None:

@@ -10,8 +10,11 @@ from models.user import User
 from models.review import Review
 from models.place import Place
 from models.amenity import Amenity
-from models.review import Review
 
+
+classes = {'City': City, 'State': State,
+           'User': User, 'Review': Review,
+           'Place': Place, 'Amenity': Amenity}
 
 class DBStorage():
     """Functionality Class"""
@@ -25,7 +28,7 @@ class DBStorage():
         ho = getenv("HBNB_MYSQL_HOST")
         db = getenv("HBNB_MYSQL_DB")
         DBStorage.__engine = \
-            create_engine(f"mysql+mysqldb://{user}:{pwd}@{ho}/{db}",
+                create_engine(f"mysql+mysqldb://{user}:{pwd}@{ho}/{db}",
                           pool_pre_ping=True)
         if getenv("HBNB_ENV") == "test":
             Base.metadata.drop_all(self.__engine)
