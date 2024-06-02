@@ -68,3 +68,10 @@ class FileStorage:
             if cls_name not in FileStorage.classes:
                 raise TypeError('obj is not valid')
             del FileStorage.__objects[f'{cls_name}.{obj.id}']
+
+    def close(self):
+        """
+        Utilitzing "self.reload()" method to deserialize the JSON file
+        into objects
+        """
+        self.reload()
