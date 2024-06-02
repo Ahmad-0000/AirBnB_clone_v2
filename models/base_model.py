@@ -44,7 +44,7 @@ class BaseModel:
         cls = (str(type(self)).split('.')[-1]).split('\'')[0]
         less_self_dict = {}
         for key in self.__dict__.keys():
-            if key == '_sa_instance_state':
+            if key == '_sa_instance_state' or f"{type(self.__dict__[key])}" == "<class 'sqlalchemy.orm.collections.InstrumentedList'>":
                 pass
             else:
                 less_self_dict[key] = self.__dict__[key]
