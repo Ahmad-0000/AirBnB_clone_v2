@@ -12,6 +12,7 @@ from models.place import Place
 from models.amenity import Amenity
 from models.review import Review
 
+
 class DBStorage():
     """Functionality Class"""
     __engine = None
@@ -71,4 +72,3 @@ class DBStorage():
     def close(self):
         """Closing the current session"""
         DBStorage.__session.remove()
-
