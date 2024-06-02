@@ -8,7 +8,13 @@ from models.state import State
 
 
 app = Flask(__name__)
-all_states = storage.all(State)
+states_dict = storage.all(State)
+states_list = []
+if states_dict:
+    for state in states_dict.values():
+        states_list.append(state)
+else:
+    pass
 
 
 @app.teardown_appcontext
@@ -26,7 +32,7 @@ def states():
     A function to render "templates/7-states_list.html" when visiting the
     route "/states_list"
     '''
-    return render_template('7-states_list.html', all_states=all_states)
+    return render_template('7-states_list.html', states_list=states_list)
 
 
 if __name__ == "__main__":
