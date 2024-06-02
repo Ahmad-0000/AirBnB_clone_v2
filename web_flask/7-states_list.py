@@ -3,8 +3,8 @@
 A script to render a specific page when visiting the route "/states_list"
 """
 from flask import Flask, render_template
-from web_flask import storage
-from web_flask import State
+from models import storage
+from models.state import State
 
 
 app = Flask(__name__)
