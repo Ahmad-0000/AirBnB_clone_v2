@@ -1,5 +1,8 @@
 #!/usr/bin/python3
-"""A script to start a Flask web app"""
+"""
+A script to start a Flask web app with one route.
+Route: 0.0.0.0:5000/
+"""
 from flask import Flask
 
 
