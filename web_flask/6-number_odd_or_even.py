@@ -69,7 +69,8 @@ def number_template_route(n):
 @app.route("/number_odd_or_even/<int:n>", strict_slashes=False)
 def number_odd_or_even_route(n):
     """
-    Rendering custom template when visiting the route /number_odd_or_even/<int:n>
+    Rendering custom template when visiting the route 
+    /number_odd_or_even/<int:n>
     """
     return render_template("6-number_odd_or_even.html", n=n)
 
