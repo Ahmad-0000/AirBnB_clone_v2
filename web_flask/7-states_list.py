@@ -1,7 +1,7 @@
 #!/usr/bin/python3
-'''
-A script to render a specific page when visiting the route "/states_list"
-'''
+"""
+A script to render a specific page when visiting the route /states_list
+"""
 from flask import Flask, render_template
 from models import storage
 from models.state import State
