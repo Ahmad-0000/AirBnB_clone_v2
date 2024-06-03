@@ -19,8 +19,8 @@ class State(BaseModel, Base):
         def cities(self):
             '''Returning a list of "City" instances with "state_id" equal
             to the current "State.id"'''
-            intial_cities_list = []
-            inital_cities_list = storage.all(City)
+            initial_cities_list = []
+            initial_cities_list = storage.all(City)
             cities_list = []
             for city in initial_cities_list:
                 if city.state_id == State.id:
