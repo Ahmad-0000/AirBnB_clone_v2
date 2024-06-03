@@ -1,6 +1,15 @@
 #!/usr/bin/python3
 """
-A script to render a specific page when visiting the route /states_list
+A script to handle seven routes in a Flask web app
+Route 1: 0.0.0.0:5000/
+Route 2: 0.0.0.0:5000/hbnb
+Route 3: 0.0.0.0:5000/c/<text>
+Route 4: 0.0.0.0:5000/python/<text>
+Route 5: 0.0.0.0:5000/number/<n> => works only if "n" is a positive integer
+Route 5: 0.0.0.0:5000/number_template/<n> =>
+         works only if "n" is a positive integer
+Route 5: 0.0.0.0:5000/number_odd_or_even/<n> =>
+         works only if "n" is a positive integer
 """
 from flask import Flask, render_template
 from models import storage
