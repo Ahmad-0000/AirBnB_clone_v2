@@ -124,13 +124,14 @@ class HBNBCommand(cmd.Cmd):
             print("** class doesn't exist **")
             return
         cls = args_list[0]
+        print(cls)
         new_instance = HBNBCommand.classes[cls]()
         if len(args_list) > 1:
             kwargs_list = args_list[1:]
             for kwarg in kwargs_list:
                 try:
                     kwarg = kwarg.split('=')
-                    arg, val = kwarg[0], kwarg[1] 
+                    arg, val = kwarg[0], kwarg[1]
                     val = val.replace('"', "")
                     if '_' in val:
                         val = val.replace('_', ' ')
