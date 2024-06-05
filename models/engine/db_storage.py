@@ -40,14 +40,14 @@ class DBStorage():
         if cls:
             obj_rows = DBStorage.__session.query(cls).all()
             for obj in obj_rows:
-                key = f'{obj.__class__.__name__}.{obj.id}'
+                key = '{}.{}'.format(obj.__class__.__name__, obj.id)
                 obj_dict[key] = obj
         else:
             obj_matrix = DBStorage.__session.query(State, City, User, Place,
                                                    User, Review).all()
             for obj_list in obj_matrix:
                 for obj in obj_list:
-                    key = f'{obj.__class__.__name__}.{obj.id}'
+                    key = '{}.{}'.format(obj.__class__.__name__, obj.id)
                     obj_dict[key] = obj
         return (obj_dict)
 

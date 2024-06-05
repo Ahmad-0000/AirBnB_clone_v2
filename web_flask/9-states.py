@@ -80,7 +80,7 @@ def c_route(text):
     """
     if "_" in text:
         text = text.replace("_", " ")
-    return f"C {text}"
+    return "C {}".format(text)
 
 
 @app.route("/python/<text>", strict_slashes=False)
@@ -91,7 +91,7 @@ def python_route(text="is cool"):
     """
     if "_" in text:
         text = text.replace("_", " ")
-    return f"Python {text}"
+    return "Python {}".format(text)
 
 
 @app.route("/number/<int:n>", strict_slashes=False)
@@ -99,7 +99,7 @@ def number_route(n):
     """
     Displaying custom content when visiting the route /number/<int:n>
     """
-    return f"{n} is a number"
+    return "{} is a number".format(n)
 
 
 @app.route("/number_template/<int:n>", strict_slashes=False)
