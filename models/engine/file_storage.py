@@ -89,3 +89,7 @@ class FileStorage:
             if obj in FileStorage.__objects.values():
                 cls = obj.__class__.__name__
                 del FileStorage.__objects['{}.{}'.format(cls, obj.id)]
+
+    def close(self):
+        """Reload all objects from the storage file"""
+        self.reload()
