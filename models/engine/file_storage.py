@@ -2,25 +2,34 @@
 """This module defines a class to manage file storage for hbnb clone"""
 import json
 
+
 class FileStorage:
-    """This class manages storage of hbnb models in JSON format"""
+    """This class is to manage storage of hbnb models in JSON format"""
     __file_path = 'file.json'
     __objects = {}
-    classes = ['BaseModel', 'User', 'State', 'City', 'Amenity',
-               'Place', 'Review']
 
     def all(self, cls=None):
         """Returns a dictionary of models currently in storage"""
-        if cls and cls.__name__ not in FileStorage.classes:
-            raise TypeError('"cls" must be a class or None')
-        if cls and cls.__name__ not in FileStorage.classes:
-            raise ValueError('{} does not exist'.format(cls.__name__))
-        if cls is not None:
-            filtered_dict = {}
-            for key in FileStorage.__objects.keys():
-                if cls.__name__ in key:
-                    filtered_dict[key] = FileStorage.__objects[key]
-            return filtered_dict
+        from models.base_model import BaseModel
+        from models.user import User
+        from models.place import Place
+        from models.state import State
+        from models.city import City
+        from models.amenity import Amenity
+        from models.review import Review
+
+        classes = {
+                    'BaseModel': BaseModel, 'User': User, 'Place': Place,
+                    'State': State, 'City': City, 'Amenity': Amenity,
+                    'Review': Review
+                  }
+        if cls:
+            if cls in classes.values():
+                custom_objects = {}
+                for key, value in FileStorage.__objects.items():
+                    if key.split(".")[0] == cls.__name__:
+                        custom_objects[key] = value
+                return custom_objects
         return FileStorage.__objects
 
     def new(self, obj):
@@ -61,16 +70,22 @@ class FileStorage:
             pass
 
     def delete(self, obj=None):
-        '''Deleting "obj" form "FileStorage.__objects"'''
-        if obj:
-            cls_name = obj.__class__.__name__
-            if cls_name not in FileStorage.classes:
-                raise TypeError('obj is not valid')
-            del FileStorage.__objects['{}.{}'.format(cls_name, obj.id)]
+        """Delete obj from the dictionary storage"""
+        from models.base_model import BaseModel
+        from models.user import User
+        from models.place import Place
+        from models.state import State
+        from models.city import City
+        from models.amenity import Amenity
+        from models.review import Review
 
-    def close(self):
-        """
-        Utilitzing "self.reload()" method to deserialize the JSON file
-        into objects
-        """
-        self.reload()
+        classes = {
+                    'BaseModel': BaseModel, 'User': User, 'Place': Place,
+                    'State': State, 'City': City, 'Amenity': Amenity,
+                    'Review': Review
+                  }
+
+        if obj:
+            if obj in FileStorage.__objects.values():
+                cls = obj.__class__.__name__
+                del FileStorage.__objects['{}.{}'.format(cls, obj.id)]

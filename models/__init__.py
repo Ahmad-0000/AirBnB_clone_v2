@@ -1,6 +1,8 @@
 #!/usr/bin/python3
-"""This module instantiates an object of class FileStorage or DBStorage"""
+"""In this module instantiation of  an object of class FileStorage
+or DBStorage occurs"""
 from os import getenv
+from models.base_model import BaseModel
 from models.state import State
 from models.city import City
 from models.place import Place

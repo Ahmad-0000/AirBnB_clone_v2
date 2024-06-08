@@ -74,7 +74,7 @@ class HBNBCommand(cmd.Cmd):
                 pline = pline[2].strip()  # pline is now str
                 if pline:
                     # check for *args or **kwargs
-                    if pline[0] is '{' and pline[-1] is'}'\
+                    if pline[0] is '{' and pline[-1] is '}'\
                             and type(eval(pline)) is dict:
                         _args = pline
                     else:
@@ -120,32 +120,46 @@ class HBNBCommand(cmd.Cmd):
             print("** class name missing **")
             return
         args_list = args.split(" ")
-        if args_list[0] not in HBNBCommand.classes:
+        cls = args_list[0]
+        if cls not in HBNBCommand.classes:
             print("** class doesn't exist **")
             return
-        cls = args_list[0]
-        print(cls)
-        new_instance = HBNBCommand.classes[cls]()
         if len(args_list) > 1:
-            kwargs_list = args_list[1:]
-            for kwarg in kwargs_list:
-                try:
-                    kwarg = kwarg.split('=')
-                    arg, val = kwarg[0], kwarg[1]
-                    val = val.replace('"', "")
-                    if '_' in val:
-                        val = val.replace('_', ' ')
-                    new_instance.__dict__[arg] = val
-                except Exception:
-                    pass
-            HBNBCommand.classes[cls].save(new_instance)
+            new_instance = HBNBCommand.classes[cls]()
+            kwargs = args_list[1:]
+            for param_value in kwargs:
+                if "=" not in param_value:
+                    continue
+                if len(param_value.split("=")) < 2:
+                    continue
+                param = param_value.split("=")[0]
+                value = param_value.split("=")[1]
+                if '"' not in value:
+                    try:
+                        value = int(value)
+                    except ValueError:
+                        try:
+                            value = float(value)
+                        except ValueError:
+                            continue
+                        else:
+                            new_instance.__dict__.update({param: value})
+                    else:
+                        new_instance.__dict__.update({param: value})
+                else:
+                    if "_" in value:
+                        value = value.replace("_", " ")
+                    value = value.replace('"', "")
+                    new_instance.__dict__.update({param: value})
+            new_instance.save()
             storage.save()
             print(new_instance.id)
         else:
-            new_instance = HBNBCommand.classes[cls]()
-            HBNBCommand.classes[cls].save(new_instance)
+            new_instance = HBNBCommand.classes[args]()
+            new_instance.save()
             storage.save()
             print(new_instance.id)
+            storage.save()
 
     def help_create(self):
         """ Help information for the create method """
@@ -227,13 +241,22 @@ class HBNBCommand(cmd.Cmd):
             if args not in HBNBCommand.classes:
                 print("** class doesn't exist **")
                 return
-            for k, v in storage.all(HBNBCommand.classes[args]).items():
-                if k.split('.')[0] == args:
-                    print_list.append(str(v))
+            if getenv("HBNB_TYPE_STORAGE") != "db":
+                for k, v in storage._FileStorage__objects.items():
+                    if k.split('.')[0] == args:
+                        print_list.append(str(v))
+            else:
+                cls = args
+                for k, v in storage.all(HBNBCommand.classes[cls]).items():
+                    if k.split(".")[0] == cls:
+                        print_list.append(str(v))
         else:
-            for k, v in storage.all().items():
-                print_list.append(str(v))
-
+            if getenv("HBNB_TYPE_STORAGE") != "db":
+                for k, v in storage._FileStorage__objects.items():
+                    print_list.append(str(v))
+            else:
+                for k, v in stoage.all().items():
+                    print_list.append(str(v))
         print(print_list)
 
     def help_all(self):
@@ -340,6 +363,9 @@ class HBNBCommand(cmd.Cmd):
         """ Help information for the update class """
         print("Updates an object with new information")
         print("Usage: update <className> <id> <attName> <attVal>\n")
+
+    do_new = do_create
+
 
 if __name__ == "__main__":
     HBNBCommand().cmdloop()
